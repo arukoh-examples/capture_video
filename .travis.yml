@@ -1,0 +1,32 @@
+language: ruby
+rvm: 2.2.0
+cache:
+  apt: true
+env:
+  global:
+    - FFMPEG_BIN_URL=https://github.com/samples-of-arukoh/build_ffmpeg/releases/download/0.0.1/ffmpeg.tar.bz2
+    - FFMPEG_BIN_DIR=$HOME/bin
+    - DISPLAY_DIMENSIONS=1024x768x24
+    - VIDEO_CAPTURE_LOG_FILE_PATH=log/captured.log
+    - VIDEO_CAPTURE_OUTPUT_PATH=captured.mp4
+    - PATH=$FFMPEG_BIN_DIR:$PATH
+before_install:
+  - sudo apt-get -y update
+  - sudo apt-get -y install libva1 libXfixes3 libasound2 libsdl1.2debian
+  - mkdir -p $FFMPEG_BIN_DIR
+  - wget -O - "$FFMPEG_BIN_URL" | tar jxvf - -C $FFMPEG_BIN_DIR
+  - ffmpeg -version
+script:
+  - bundle exec ruby sample.rb
+  - ffprobe $VIDEO_CAPTURE_OUTPUT_PATH
+after_failure:
+  - cat $VIDEO_CAPTURE_LOG_FILE_PATH
+deploy:
+  provider: releases
+  api_key:
+    secure: kcjcluZ7j+v4mZRLfRfguhO+eh4JRbPc2qd0wvrwt+narWW1YCAZXhaZMqkTgWK5D/stH0kp/tUlZfPevT8Bi4L782V6CZ+SFPmOuxEDQfo8h5AL5MNqzF4FQHB8jEnOdLzFC3mXIQ28XreNS0BCb64HN+jQy7JX1axlBbKUspQ=
+  file: $VIDEO_CAPTURE_OUTPUT_PATH
+  on:
+    repo: samples-of-arukoh/capture_video
+    tags: true
+    all_branches: true
