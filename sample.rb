@@ -16,6 +16,20 @@ class Headless
   end
 end
 
+  class Headless
+    class CliUtil
+      class << self
+        alias :fork_process_org :fork_process
+      end 
+      def self.fork_process(command, pid_filename, log_filename='/dev/null')
+        puts "*"*20
+        puts command
+        puts "*"*20
+        fork_process_org command, pid_filename, log_filename
+      end 
+    end 
+  end 
+
 options = {}
 options[:dimensions]            = ENV['DISPLAY_DIMENSIONS'] || Headless::DEFAULT_DISPLAY_DIMENSIONS
 options[:video]                 = {}
