@@ -6,7 +6,7 @@ env:
   global:
     - FFMPEG_BIN_URL=http://johnvansickle.com/ffmpeg/releases/ffmpeg-release-64bit-static.tar.xz
     - FFMPEG_BIN_DIR=$HOME/bin
-    - DISPLAY_DIMENSIONS=1024x768x24
+#    - DISPLAY_DIMENSIONS=1024x768x24
     - VIDEO_CAPTURE_LOG_FILE_PATH=log/captured.log
     - VIDEO_CAPTURE_OUTPUT_PATH=captured.mp4
     - VIDEO_CAPTURE_CODEC=libx264 -preset ultrafast -pix_fmt yuv420p
